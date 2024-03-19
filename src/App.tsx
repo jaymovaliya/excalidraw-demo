@@ -132,67 +132,67 @@ function App() {
     setElements(elements);
   };
 
-  const handlePointerUp = useCallback(() => {
-    if (!elements?.length) return;
-    const updatedElements = [...elements];
-    const lineElement = elements
-      ?.reverse()
-      .find((element) => element.type === "line");
-    const lineTextElement = elements?.find(
-      (element) =>
-        element.type === "text" &&
-        lineElement?.id &&
-        element.groupIds?.includes(lineElement?.id)
-    );
-    if (lineElement && lineTextElement) {
-      // update line text
-      const text = `${covertPxToMm(lineElement?.width)}`;
-      const updatedLineTextElement = {
-        ...lineTextElement,
-        text,
-      };
-      const index = updatedElements.findIndex(
-        (element) => element.id === lineTextElement.id
-      );
-      updatedElements.splice(index, 1);
-      // add new text element
-      updatedElements.push(updatedLineTextElement);
-      excalidrawAPI?.updateScene({
-        elements: updatedElements,
-      });
-      return;
-    }
-    if (lineElement && !lineTextElement) {
-      const textElement = elements
-        ?.reverse()
-        .find(
-          (element) =>
-            element.type === "text" &&
-            element.groupIds?.includes(lineElement.groupIds?.[0])
-        );
-      if (textElement) {
-      } else {
-        const newTextElement = {
-          type: "text",
-          x: lineElement.x + lineElement.width / 2,
-          y: lineElement.y - 25,
-          text: `${covertPxToMm(lineElement?.width)}`,
-          fontSize: 20,
-          textAlign: "center",
-          fontFamily: "Arial",
-          groupIds: [lineElement?.id],
-        };
-        const excalidrawTextElements = convertToExcalidrawElements([
-          newTextElement as any,
-        ]);
-        updatedElements.push(excalidrawTextElements?.[0]);
-      }
-      excalidrawAPI?.updateScene({
-        elements: updatedElements,
-      });
-      return;
-    }
-  }, [elements]);
+  // const handlePointerUp = useCallback(() => {
+  //   if (!elements?.length) return;
+  //   const updatedElements = [...elements];
+  //   const lineElement = elements
+  //     ?.reverse()
+  //     .find((element) => element.type === "line");
+  //   const lineTextElement = elements?.find(
+  //     (element) =>
+  //       element.type === "text" &&
+  //       lineElement?.id &&
+  //       element.groupIds?.includes(lineElement?.id)
+  //   );
+  //   if (lineElement && lineTextElement) {
+  //     // update line text
+  //     const text = `${covertPxToMm(lineElement?.width)}`;
+  //     const updatedLineTextElement = {
+  //       ...lineTextElement,
+  //       text,
+  //     };
+  //     const index = updatedElements.findIndex(
+  //       (element) => element.id === lineTextElement.id
+  //     );
+  //     updatedElements.splice(index, 1);
+  //     // add new text element
+  //     updatedElements.push(updatedLineTextElement);
+  //     excalidrawAPI?.updateScene({
+  //       elements: updatedElements,
+  //     });
+  //     return;
+  //   }
+  //   if (lineElement && !lineTextElement) {
+  //     const textElement = elements
+  //       ?.reverse()
+  //       .find(
+  //         (element) =>
+  //           element.type === "text" &&
+  //           element.groupIds?.includes(lineElement.groupIds?.[0])
+  //       );
+  //     if (textElement) {
+  //     } else {
+  //       const newTextElement = {
+  //         type: "text",
+  //         x: lineElement.x + lineElement.width / 2,
+  //         y: lineElement.y - 25,
+  //         text: `${covertPxToMm(lineElement?.width)}`,
+  //         fontSize: 20,
+  //         textAlign: "center",
+  //         fontFamily: "Arial",
+  //         groupIds: [lineElement?.id],
+  //       };
+  //       const excalidrawTextElements = convertToExcalidrawElements([
+  //         newTextElement as any,
+  //       ]);
+  //       updatedElements.push(excalidrawTextElements?.[0]);
+  //     }
+  //     excalidrawAPI?.updateScene({
+  //       elements: updatedElements,
+  //     });
+  //     return;
+  //   }
+  // }, [elements]);
 
   useEffect(() => {
     if (!excalidrawAPI) return;
